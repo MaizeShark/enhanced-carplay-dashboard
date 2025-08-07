@@ -1,38 +1,580 @@
 .App {
   text-align: center;
+  height: 100vh;
+  width: 100vw;
+  background: linear-gradient(135deg, #0a0a0a 0%, #1a1a1a 50%, #0f0f0f 100%);
+  position: relative;
+  overflow: hidden;
 }
 
-.App-logo {
-  height: 40vmin;
+/* Animated background particles */
+.App::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-image: 
+    radial-gradient(circle at 20% 80%, rgba(120, 119, 198, 0.1) 0%, transparent 50%),
+    radial-gradient(circle at 80% 20%, rgba(255, 119, 198, 0.1) 0%, transparent 50%),
+    radial-gradient(circle at 40% 40%, rgba(120, 219, 255, 0.1) 0%, transparent 50%);
+  animation: backgroundShift 20s ease-in-out infinite;
   pointer-events: none;
 }
 
-@media (prefers-reduced-motion: no-preference) {
-  .App-logo {
-    animation: App-logo-spin infinite 20s linear;
-  }
+@keyframes backgroundShift {
+  0%, 100% { transform: translateX(0) translateY(0); }
+  25% { transform: translateX(-10px) translateY(-5px); }
+  50% { transform: translateX(10px) translateY(5px); }
+  75% { transform: translateX(-5px) translateY(10px); }
 }
 
-.App-header {
-  background-color: #282c34;
-  min-height: 100vh;
+/* Dashboard screen styles */
+.dashboard-screen {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  z-index: 10;
+  background: rgba(10, 10, 10, 0.95);
+  backdrop-filter: blur(10px);
+  padding: 20px;
+  box-sizing: border-box;
+}
+
+.dashboard-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+  padding: 0 20px;
+}
+
+.time-display {
+  font-size: 28px;
+  font-weight: 300;
+  color: #ffffff;
+  font-family: 'SF Pro Display', -apple-system, sans-serif;
+}
+
+.date-display {
+  font-size: 16px;
+  color: #8e8e93;
+  margin-top: 4px;
+}
+
+.dashboard-main {
+  display: grid;
+  grid-template-columns: 1fr 2fr 1fr;
+  grid-template-rows: 1fr auto;
+  gap: 30px;
+  flex: 1;
+  max-width: 1400px;
+  margin: 0 auto;
+  width: 100%;
+}
+
+.left-panel {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.center-panel {
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  font-size: calc(10px + 2vmin);
+  gap: 30px;
+}
+
+.right-panel {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+/* Modern digital displays */
+.data-card {
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 16px;
+  padding: 24px;
+  text-align: center;
+  backdrop-filter: blur(10px);
+  transition: all 0.3s ease;
+}
+
+.data-card:hover {
+  background: rgba(255, 255, 255, 0.08);
+  border-color: rgba(255, 255, 255, 0.2);
+  transform: translateY(-2px);
+}
+
+.data-card-large {
+  padding: 32px;
+  background: linear-gradient(135deg, rgba(0, 122, 255, 0.1), rgba(88, 86, 214, 0.1));
+  border: 1px solid rgba(0, 122, 255, 0.3);
+}
+
+.data-value {
+  font-size: 48px;
+  font-weight: 700;
+  color: #ffffff;
+  margin-bottom: 8px;
+  font-family: 'SF Pro Display', -apple-system, sans-serif;
+  line-height: 1;
+}
+
+.data-value-large {
+  font-size: 72px;
+  background: linear-gradient(135deg, #00D4FF, #007AFF);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.data-unit {
+  font-size: 16px;
+  color: #8e8e93;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  font-weight: 500;
+}
+
+.data-label {
+  font-size: 14px;
+  color: #8e8e93;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  margin-bottom: 12px;
+  font-weight: 500;
+}
+
+.progress-bar {
+  width: 100%;
+  height: 4px;
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 2px;
+  margin-top: 16px;
+  overflow: hidden;
+}
+
+.progress-fill {
+  height: 100%;
+  border-radius: 2px;
+  transition: width 0.5s ease;
+}
+
+.progress-fuel {
+  background: linear-gradient(90deg, #FF3B30, #FF9500, #34C759);
+}
+
+.progress-temp {
+  background: linear-gradient(90deg, #007AFF, #00D4FF);
+}
+
+/* Digital displays */
+.digital-display {
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 12px;
+  padding: 20px;
+  text-align: center;
+}
+
+.display-value {
+  font-size: 32px;
+  font-weight: 600;
+  color: #00D4FF;
+  margin-bottom: 8px;
+  font-family: 'SF Mono', monospace;
+}
+
+.display-label {
+  font-size: 14px;
+  color: #8e8e93;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+
+.gear-display {
+  background: linear-gradient(135deg, #007AFF, #5856D6);
   color: white;
+  font-size: 48px;
+  font-weight: 700;
+  width: 80px;
+  height: 80px;
+  border-radius: 16px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0 auto 10px;
+  box-shadow: 0 8px 24px rgba(0, 122, 255, 0.3);
 }
 
-.App-link {
-  color: #61dafb;
+/* Status indicators */
+.status-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 15px;
+  margin-top: 20px;
 }
 
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
+.status-item {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 12px;
+  background: rgba(255, 255, 255, 0.05);
+  border-radius: 8px;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.status-icon {
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+}
+
+.status-icon.green { background: #34C759; }
+.status-icon.yellow { background: #FF9500; }
+.status-icon.red { background: #FF3B30; }
+.status-icon.blue { background: #007AFF; }
+
+.status-text {
+  font-size: 14px;
+  color: #ffffff;
+}
+
+/* CarPlay connection area */
+.carplay-connection {
+  grid-column: 1 / -1;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 20px;
+  padding: 20px;
+  background: rgba(255, 255, 255, 0.03);
+  border-radius: 16px;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  margin-top: 20px;
+}
+
+.carplay-mini-logo {
+  width: 40px;
+  height: 40px;
+  background: linear-gradient(135deg, #007AFF, #5856D6);
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 4px 12px rgba(0, 122, 255, 0.3);
+}
+
+.carplay-mini-logo svg {
+  width: 20px;
+  height: 20px;
+  fill: white;
+}
+
+.carplay-status {
+  flex: 1;
+  text-align: left;
+}
+
+.carplay-status h3 {
+  margin: 0 0 4px 0;
+  font-size: 16px;
+  color: #ffffff;
+}
+
+.carplay-status p {
+  margin: 0;
+  font-size: 14px;
+  color: #8e8e93;
+}
+
+/* Waiting screen styles (for loading state) */
+.waiting-screen {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  z-index: 10;
+  background: rgba(10, 10, 10, 0.95);
+  backdrop-filter: blur(10px);
+}
+
+.carplay-logo {
+  width: 120px;
+  height: 120px;
+  margin-bottom: 40px;
+  background: linear-gradient(135deg, #007AFF, #5856D6);
+  border-radius: 24px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 20px 40px rgba(0, 122, 255, 0.3);
+  animation: logoFloat 3s ease-in-out infinite;
+  position: relative;
+  overflow: hidden;
+}
+
+.carplay-logo::before {
+  content: '';
+  position: absolute;
+  top: -50%;
+  left: -50%;
+  width: 200%;
+  height: 200%;
+  background: linear-gradient(45deg, transparent, rgba(255, 255, 255, 0.1), transparent);
+  animation: logoShine 4s ease-in-out infinite;
+}
+
+.carplay-logo svg {
+  width: 60px;
+  height: 60px;
+  fill: white;
+  z-index: 1;
+}
+
+@keyframes logoFloat {
+  0%, 100% { transform: translateY(0px); }
+  50% { transform: translateY(-10px); }
+}
+
+@keyframes logoShine {
+  0% { transform: translateX(-100%) translateY(-100%) rotate(45deg); }
+  50% { transform: translateX(100%) translateY(100%) rotate(45deg); }
+  100% { transform: translateX(100%) translateY(100%) rotate(45deg); }
+}
+
+.status-text {
+  font-size: 24px;
+  font-weight: 600;
+  margin-bottom: 16px;
+  color: #ffffff;
+  opacity: 0.9;
+}
+
+.status-subtitle {
+  font-size: 16px;
+  color: #8e8e93;
+  margin-bottom: 40px;
+  max-width: 400px;
+  line-height: 1.4;
+}
+
+.connect-button {
+  background: linear-gradient(135deg, #007AFF, #5856D6);
+  border: none;
+  border-radius: 16px;
+  padding: 18px 36px;
+  font-size: 18px;
+  font-weight: 600;
+  color: white;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  box-shadow: 0 8px 24px rgba(0, 122, 255, 0.3);
+  position: relative;
+  overflow: hidden;
+  min-width: 280px;
+}
+
+.connect-button:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 12px 32px rgba(0, 122, 255, 0.4);
+}
+
+.connect-button:active {
+  transform: translateY(0px);
+  box-shadow: 0 4px 16px rgba(0, 122, 255, 0.3);
+}
+
+.connect-button::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+  transition: left 0.5s ease;
+}
+
+.connect-button:hover::before {
+  left: 100%;
+}
+
+/* Loading spinner container */
+.loading-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 24px;
+}
+
+.loading-text {
+  font-size: 18px;
+  color: #8e8e93;
+  animation: pulse 2s ease-in-out infinite;
+}
+
+@keyframes pulse {
+  0%, 100% { opacity: 0.6; }
+  50% { opacity: 1; }
+}
+
+/* Custom loading spinner */
+.custom-spinner {
+  width: 60px;
+  height: 60px;
+  border: 3px solid rgba(255, 255, 255, 0.1);
+  border-top: 3px solid #007AFF;
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+/* Ambient grid animation */
+.grid-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  opacity: 0.03;
+  background-image: 
+    linear-gradient(rgba(255, 255, 255, 0.1) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255, 255, 255, 0.1) 1px, transparent 1px);
+  background-size: 50px 50px;
+  animation: gridMove 30s linear infinite;
+  pointer-events: none;
+}
+
+@keyframes gridMove {
+  0% { transform: translate(0, 0); }
+  100% { transform: translate(50px, 50px); }
+}
+
+/* Status indicators */
+.status-indicator {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-top: 20px;
+  padding: 12px 20px;
+  background: rgba(255, 255, 255, 0.05);
+  border-radius: 12px;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.status-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: #34C759;
+  animation: statusPulse 2s ease-in-out infinite;
+}
+
+.status-dot.searching {
+  background: #FF9500;
+}
+
+.status-dot.error {
+  background: #FF3B30;
+}
+
+@keyframes statusPulse {
+  0%, 100% { opacity: 1; transform: scale(1); }
+  50% { opacity: 0.6; transform: scale(1.2); }
+}
+
+/* Toggle button styles */
+.toggle-button {
+  background: linear-gradient(135deg, #007AFF, #5856D6);
+  border: none;
+  border-radius: 12px;
+  padding: 12px 20px;
+  color: white;
+  fontSize: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.3);
+  transition: all 0.3s ease;
+  backdrop-filter: blur(10px);
+  position: relative;
+  overflow: hidden;
+}
+
+.toggle-button:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.4);
+}
+
+.toggle-button:active {
+  transform: translateY(0px);
+}
+
+.toggle-button.dashboard-active {
+  background: linear-gradient(135deg, #34C759, #30D158);
+}
+
+.toggle-button::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+  transition: left 0.5s ease;
+}
+
+.toggle-button:hover::before {
+  left: 100%;
+}
+
+/* Responsive design */
+@media (max-width: 768px) {
+  .carplay-logo {
+    width: 100px;
+    height: 100px;
+    margin-bottom: 30px;
   }
-  to {
-    transform: rotate(360deg);
+  
+  .carplay-logo svg {
+    width: 50px;
+    height: 50px;
+  }
+  
+  .status-text {
+    font-size: 20px;
+  }
+  
+  .connect-button {
+    padding: 16px 32px;
+    font-size: 16px;
+    min-width: 240px;
+  }
+
+  .dashboard-main {
+    grid-template-columns: 1fr;
+    gap: 20px;
+  }
+
+  .carplay-connection {
+    flex-direction: column;
+    text-align: center;
   }
 }
