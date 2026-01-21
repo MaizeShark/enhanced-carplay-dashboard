@@ -40,7 +40,7 @@ A modern, hybrid car dashboard interface built on top of the excellent [node-Car
 
 1. **Clone the repository**
    ```bash
-   git clone https://github.com/kadirgeciit/enhanced-carplay-dashboard.git
+   git clone https://github.com/kadirgecit/enhanced-carplay-dashboard.git
    cd enhanced-carplay-dashboard
    ```
 
